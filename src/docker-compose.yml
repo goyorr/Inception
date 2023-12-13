@@ -1,0 +1,62 @@
+version: "3.7"
+
+services:
+  mariadb:
+    build: ./requirements/mariadb/
+    container_name: mariadb
+    env_file: .env
+    image: mariadb
+    restart: always
+    ports:
+      - 3306:3306
+    networks:
+      - net
+    volumes:
+      - vol_mariadb:/var/lib/mysql
+  nginx:
+    build: ./requirements/nginx/
+    container_name: nginx
+    env_file: .env
+    image: nginx
+    depends_on:
+      - wordpress
+    ports:
+      - 443:443
+    restart: on-failure
+    volumes:
+      - vol_wordpress:/wp
+    networks:
+      - net
+  wordpress:
+    build:  ./requirements/wordpress/
+    container_name: wordpress
+    env_file: .env
+    image: wordpress
+    depends_on:
+      - mariadb
+    ports:
+      - 9000:9000
+    restart: always
+    volumes:
+      - vol_wordpress:/wp
+    networks:
+      - net
+networks:
+  net:
+  
+volumes:
+  vol_mariadb:
+    name: mariadb_vol
+    driver: local
+    driver_opts:
+      device: /home/zel-kach/data/vol_mariadb
+      type: none
+      o: bind
+ 
+  vol_wordpress:
+    name: wordpress_vol
+    driver: local
+    driver_opts:
+      device: /home/zel-kach/data/vol_wordpress
+      type: none
+      o: bind
