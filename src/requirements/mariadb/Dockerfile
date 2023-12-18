@@ -1,5 +1,7 @@
 FROM debian:bullseye
 
+EXPOSE 3306
+
 RUN apt-get update -y \
     && apt-get install mariadb-server -y
 

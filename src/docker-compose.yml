@@ -24,7 +24,7 @@ services:
       - 443:443
     restart: always
     volumes:
-      - vol_wordpress:/wp
+      - vol_wordpress:/wp-install
     networks:
       - net
   wordpress:
@@ -38,7 +38,7 @@ services:
       - 9000:9000
     restart: always
     volumes:
-      - vol_wordpress:/wp
+      - vol_wordpress:/wp-install
     networks:
       - net
 networks:
