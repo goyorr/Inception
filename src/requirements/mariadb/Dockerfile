@@ -1,11 +1,10 @@
 FROM debian:bullseye
 
-RUN apt-get update -y apt \
-    && apt-get upgrade -y \
+RUN apt-get update -y \
     && apt-get install mariadb-server -y
 
-COPY ./tools/script.sh /
+COPY ./tools/start.sh /
 
-RUN chmod +x /script.sh
+RUN chmod +x /start.sh
 
-CMD ["/script.sh"]
+CMD ["/start.sh"]

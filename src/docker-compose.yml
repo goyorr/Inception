@@ -22,7 +22,7 @@ services:
       - wordpress
     ports:
       - 443:443
-    restart: on-failure
+    restart: always
     volumes:
       - vol_wordpress:/wp
     networks:
@@ -49,7 +49,7 @@ volumes:
     name: mariadb_vol
     driver: local
     driver_opts:
-      device: /home/zel-kach/data/vol_mariadb
+      device: /Users/zel-kach/data/vol_mariadb
       type: none
       o: bind
  
@@ -57,6 +57,6 @@ volumes:
     name: wordpress_vol
     driver: local
     driver_opts:
-      device: /home/zel-kach/data/vol_wordpress
+      device: /Users/zel-kach/data/vol_wordpress
       type: none
       o: bind
