@@ -1,0 +1,63 @@
+version: "3.7"
+
+services:
+  mariadb:
+    build: ./requirements/mariadb/
+    container_name: mariadb
+    image: mariadb:v3.0.0
+    env_file: .env
+    ports:
+      - "3306"
+    volumes:
+      - volume_mariadb:/var/lib/mysql:rw
+    networks:
+      - inception-v3.0.0_network
+    restart: always
+  nginx:
+    build: ./requirements/nginx/
+    container_name: nginx
+    image: nginx:v3.0.0
+    env_file: .env
+    ports:
+      - 443:443
+    volumes:
+      - volume_wordpress:/wp:rw
+    depends_on:
+      - mariadb
+      - wordpress
+    networks:
+      - inception-v3.0.0_network
+    restart: always
+  wordpress:
+    build: ./requirements/wordpress/
+    container_name: wordpress
+    image: wordpress:v3.0.0
+    env_file: .env
+    ports:
+      - "9000"
+    depends_on:
+      - mariadb
+    volumes:
+      - volume_wordpress:/wp:rw
+    networks:
+      - inception-v3.0.0_network
+    restart: always
+
+volumes:
+  volume_mariadb:
+    name: inception_v3.0.0_mariadb_volume
+    driver_opts:
+      device: /home/zel-kach/data/volume_mariadb
+      # device: ${HOME}/data/volume_mariadb
+      type: none
+      o: bind
+  volume_wordpress:
+    name: inception_v3.0.0_wordpress_volume
+    driver_opts:
+      device: /home/zel-kach/data/volume_wordpress
+      # device: ${HOME}/data/volume_wordpress
+      type: none
+      o: bind
+networks:
+  inception-v3.0.0_network:
+    name: inception-v3.0.0_network

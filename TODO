@@ -1,2 +1,0 @@
-
-The process of switching users in Unix-like operating systems is typically done using the setuid() or seteuid() system calls. These system calls allow a process to change its effective user ID (UID) or group ID (GID). The effective UID and GID determine the permissions of the process.
